@@ -16,7 +16,8 @@
             height: 100vh;
             display: flex;
             overflow: hidden;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(to right, #ffd700 0%, #ff8c00 50%, #ff4500 100%);
+            position: relative;
         }
 
         .container {
@@ -26,30 +27,42 @@
         }
 
         .left-section {
-            width: 30%;
+            width: 35%;
             display: flex;
             align-items: center;
             justify-content: center;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-right: 2px solid rgba(255, 255, 255, 0.2);
-            padding: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border-right: 2px solid rgba(255, 255, 255, 0.3);
+            padding: 10px;
         }
 
         .title {
-            writing-mode: vertical-rl;
-            text-orientation: upright;
-            font-size: 3.5rem;
-            font-weight: bold;
-            color: #fff;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            letter-spacing: 0.3em;
-            white-space: nowrap;
-            line-height: 1.2;
             display: flex;
+            flex-direction: row;
             align-items: center;
             justify-content: center;
             height: 100%;
+            width: fit-content;
+            gap: 0.4rem;
+            margin: 0 auto;
+        }
+
+        .title-column {
+            writing-mode: vertical-rl;
+            font-size: 5.5rem;
+            font-weight: bold;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            line-height: 1.3;
+            display: inline-block;
+            height: fit-content;
+            max-height: 100%;
+        }
+
+        .title .char {
+            display: inline-block;
         }
 
         .title .number-group {
@@ -60,7 +73,7 @@
         }
 
         .right-section {
-            width: 70%;
+            width: 65%;
             display: flex;
             flex-direction: column;
             padding: 40px;
@@ -78,9 +91,9 @@
         }
 
         .number {
-            font-size: 15rem;
+            font-size: 24rem;
             font-weight: bold;
-            color: #667eea;
+            color: #FF6B6B;
             font-family: 'Arial', sans-serif;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
@@ -95,9 +108,8 @@
         .start-button {
             width: 100%;
             height: 100%;
-            font-size: 4rem;
+            font-size: 5.5rem;
             font-weight: bold;
-            color: #fff;
             background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
             border: none;
             border-radius: 20px;
@@ -106,6 +118,14 @@
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 0.2em;
+        }
+
+        .start-button.start-state {
+            color: #00ff00;
+        }
+
+        .start-button.end-state {
+            color: #ff0000;
         }
 
         .start-button:hover {
@@ -122,7 +142,21 @@
 <body>
     <div class="container">
         <div class="left-section">
-            <div class="title">四<span class="number-group">14</span>班联欢抽奖</div>
+            <div class="title" id="titleText">
+                <div class="title-column">
+                    <span class="char">四</span>
+                    <span class="char">年</span>
+                    <span class="char">级</span>
+                    <span class="number-group">14</span>
+                    <span class="char">班</span>
+                </div>
+                <div class="title-column">
+                    <span class="char">联</span>
+                    <span class="char">欢</span>
+                    <span class="char">抽</span>
+                    <span class="char">奖</span>
+                </div>
+            </div>
         </div>
         <div class="right-section">
             <div class="number-display">
@@ -135,8 +169,35 @@
     </div>
 
     <script>
+        // 为标题汉字和数字随机分配颜色
+        const titleChars = document.querySelectorAll('.title .char');
+        const numberGroup = document.querySelector('.title .number-group');
+        const colors = ['#0000ff', '#00FFFF', '#8000ff']; // 蓝色、青色、紫色
+        
+        // 更新颜色的函数
+        function updateTitleColors() {
+            titleChars.forEach(char => {
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                char.style.color = randomColor;
+            });
+            
+            // 为14数字也随机分配颜色
+            if (numberGroup) {
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                numberGroup.style.color = randomColor;
+            }
+        }
+        
+        // 初始化颜色
+        updateTitleColors();
+        
+        // 每秒更新一次颜色
+        setInterval(updateTitleColors, 1000);
+
         const numberDisplay = document.getElementById('numberDisplay');
         const controlButton = document.getElementById('controlButton');
+        // 初始化按钮状态为START（绿色）
+        controlButton.classList.add('start-state');
         let intervalId = null;
         let isRunning = false;
 
@@ -164,6 +225,8 @@
             
             isRunning = true;
             controlButton.textContent = 'END';
+            controlButton.classList.remove('start-state');
+            controlButton.classList.add('end-state');
             
             // 快速跳动，每50ms更新一次
             intervalId = setInterval(() => {
@@ -184,6 +247,8 @@
             
             // 恢复按钮文字
             controlButton.textContent = 'START';
+            controlButton.classList.remove('end-state');
+            controlButton.classList.add('start-state');
         }
 
         // 按钮点击事件

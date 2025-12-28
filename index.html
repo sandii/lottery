@@ -126,13 +126,75 @@
         </div>
         <div class="right-section">
             <div class="number-display">
-                <div class="number">00</div>
+                <div class="number" id="numberDisplay">00</div>
             </div>
             <div class="button-container">
-                <button class="start-button">START</button>
+                <button class="start-button" id="controlButton">START</button>
             </div>
         </div>
     </div>
+
+    <script>
+        const numberDisplay = document.getElementById('numberDisplay');
+        const controlButton = document.getElementById('controlButton');
+        let intervalId = null;
+        let isRunning = false;
+
+        // 排除的数字列表
+        const excludedNumbers = ['01', '05', '13', '15', '23', '29'];
+        
+        // 生成所有有效数字的数组（01-37，排除指定数字）
+        const validNumbers = [];
+        for (let i = 1; i <= 37; i++) {
+            const numStr = i.toString().padStart(2, '0');
+            if (!excludedNumbers.includes(numStr)) {
+                validNumbers.push(numStr);
+            }
+        }
+
+        // 生成01-37的随机数字（格式化为两位数），排除指定数字
+        function getRandomNumber() {
+            const randomIndex = Math.floor(Math.random() * validNumbers.length);
+            return validNumbers[randomIndex];
+        }
+
+        // 开始跳动
+        function startLottery() {
+            if (isRunning) return;
+            
+            isRunning = true;
+            controlButton.textContent = 'END';
+            
+            // 快速跳动，每50ms更新一次
+            intervalId = setInterval(() => {
+                numberDisplay.textContent = getRandomNumber();
+            }, 50);
+        }
+
+        // 停止跳动并显示最终结果
+        function stopLottery() {
+            if (!isRunning) return;
+            
+            clearInterval(intervalId);
+            isRunning = false;
+            
+            // 随机选择最终数字
+            const finalNumber = getRandomNumber();
+            numberDisplay.textContent = finalNumber;
+            
+            // 恢复按钮文字
+            controlButton.textContent = 'START';
+        }
+
+        // 按钮点击事件
+        controlButton.addEventListener('click', () => {
+            if (isRunning) {
+                stopLottery();
+            } else {
+                startLottery();
+            }
+        });
+    </script>
 </body>
 </html>
 

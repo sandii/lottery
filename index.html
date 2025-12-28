@@ -3,10 +3,136 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hello World</title>
+    <title>四年级14班联欢抽奖</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            overflow: hidden;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .left-section {
+            width: 30%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 20px;
+        }
+
+        .title {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            font-size: 3.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            letter-spacing: 0.3em;
+            white-space: nowrap;
+            line-height: 1.2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+        }
+
+        .title .number-group {
+            writing-mode: horizontal-tb;
+            text-orientation: mixed;
+            display: inline-block;
+            letter-spacing: 0;
+        }
+
+        .right-section {
+            width: 70%;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+        }
+
+        .number-display {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .number {
+            font-size: 15rem;
+            font-weight: bold;
+            color: #667eea;
+            font-family: 'Arial', sans-serif;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .button-container {
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .start-button {
+            width: 100%;
+            height: 100%;
+            font-size: 4rem;
+            font-weight: bold;
+            color: #fff;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+        }
+
+        .start-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .start-button:active {
+            transform: translateY(0);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+    </style>
 </head>
 <body>
-    <h1>hello world</h1>
+    <div class="container">
+        <div class="left-section">
+            <div class="title">四<span class="number-group">14</span>班联欢抽奖</div>
+        </div>
+        <div class="right-section">
+            <div class="number-display">
+                <div class="number">00</div>
+            </div>
+            <div class="button-container">
+                <button class="start-button">START</button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
 
